@@ -7,6 +7,7 @@ var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var fs = require('fs');
 var components = require('ui-mails_components');
+var _ = require('lodash');
 
 var src = {
   'base' : 'src/',
@@ -39,29 +40,37 @@ gulp.task('compileHb', function () {
     batch : src.components,
     compile : {
       'noEscape': true
-    }
+    },
 		// partials : {
 		// 	footer : '<footer>{{{banner_mobile_title}}}</footer>'
 		// },
-		// helpers : {
-		// 	capitals : function(str){
-		// 		return str.toUpperCase();
-		// 	}
-		// }
+		helpers : {
+			attrs : function(context, options){
+        var attrs = _.keys(options.hash).map(function(key) {
+          return key + '="' + options.hash[key] + '"';
+        }).join(" ");
+
+        console.log(attrs);
+
+        return attrs;
+			}
+		}
 	}
 
-	return gulp.src(src.html + '/**/*.html')
-		.pipe($.compileHandlebars(templateData, options))
-		.pipe($.rename(function (path) {
-      path.basename += "-compiled";
-    }))
-		.pipe(gulp.dest(build.html));
+  try {
+    return gulp.src(src.html + '/**/*.html')
+  		.pipe($.compileHandlebars(templateData, options))
+  		.pipe(gulp.dest(build.html));
+  } catch (e) {
+    console.log("funciona!", e.toString());
+  }
+
 });
 
 gulp.task('serve', ['build'], function() {
 
     browserSync.init({
-        server: build.base
+        server: build.base + "/html"
     });
 
     Object.keys(src.styles).forEach(function (item) {
