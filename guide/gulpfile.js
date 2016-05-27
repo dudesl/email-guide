@@ -36,7 +36,10 @@ gulp.task('compileHb', function () {
   var templateData = JSON.parse(fs.readFileSync(src.content + '/content.json')),
 	options = {
 		ignorePartials: true, //ignores the unknown footer2 partial in the handlebars template, defaults to false
-    batch : src.components
+    batch : src.components,
+    compile : {
+      'noEscape': true
+    }
 		// partials : {
 		// 	footer : '<footer>{{{banner_mobile_title}}}</footer>'
 		// },
