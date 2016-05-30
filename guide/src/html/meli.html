@@ -1,0 +1,51 @@
+<!-- En cualquier parte de este documento se puede escribir html simple. -->
+<!-- O podemos empezar a llamar a los componentes de los distintos temas.-->
+
+<!-- document contiene el doctype y la definición del tag html-->
+
+<!--
+  Todo en este contexto es handlebars . Las llamadas a los componentes se hacen con la sintaxis de handlebars. Un componente es uno o varios partials.
+
+  En la carpeta 'components', podemos componer archivos *.handlebars con el contenido de cada partial. Todos los archivos *.handlebars son cargados recursivamente en el contexto de compilacion, por lo que estan disponibles en
+  cualquier HTML dentro de la carpeta 'html'.
+-->
+<!-- Un document genérico que tiene la declaración de doctype y el tag html -->
+<!-- ./components/document.handlebars -->
+{{#>document}}
+
+  <!-- Tag head con estilos de la compañia -->
+  <!-- ./components/mt/head.handlebars -->
+  {{#>mt/head theme="mercadopago"}}
+
+    <!--
+      Este es un partial en línea. Este partial se llama desde el partial 'head'
+      Acá se definen metatags adicionales definidos en html simple
+
+      El template ya considera estos:
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    -->
+    {{#*inline "mt/head__meta"}}
+
+    {{/inline}}
+
+
+    <!--
+      Otro partial en línea. Acá se definen estilos adicionales definidos en html simple. Se puede usar el tag <link> y el tag <style> tantos como queramos.
+    -->
+
+    {{#*inline "mt/head__styles"}}
+    <!-- <style></style> -->
+    <!-- <link></link> -->
+    {{/inline}}
+  {{/mt/head}}
+
+  <!-- ./components/mt/body.handlebars -->
+  {{#>mt/body}}
+    <!--
+    Aca ya podemos dejar volar nuestra imaginación.HTML, llamada a partials. Todo se vá a compilar como un solo html al final del proceso
+    -->
+    
+  {{/mt/body}}
+
+{{/document}}
